@@ -1,0 +1,13 @@
+{
+  "name": "sorting-battle-arena",
+  "version": "1.0.0",
+  "description": "Sorting Battle Arena – Dataset Sorting & Algorithm Analyzer (DAA Assignment)",
+  "scripts": {
+    "dev:backend": "cd backend && npm start",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install"
+  },
+  "author": "Sorting Battle Arena Team",
+  "license": "MIT"
+}
