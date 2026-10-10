@@ -7,12 +7,8 @@ import {
   CheckCircle2,
   AlertCircle,
   FileSpreadsheet,
-  FileText,
   Trash2,
-  ArrowRight,
-  Sparkles,
-  Layers,
-  RotateCcw
+  ArrowRight
 } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import { generateDataset, formatNumber } from '../utils/datasetGenerators';
@@ -158,59 +154,56 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
   const parsedManualCount = manualText.split(/[\s,;\t\r\n]+/).filter(Boolean).length;
 
   return (
-    <section id="input-section" className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
-      {/* Section Header */}
-      <div className="text-center space-y-2">
-        <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+    <section id="input-section" className="relative py-10 sm:py-14 px-4 sm:px-6 max-w-6xl mx-auto space-y-8">
+      {/* Restored Original Section Header */}
+      <div className="text-center space-y-1.5">
+        <span className="text-xs font-bold uppercase tracking-wider text-[#C62832]">
           Step 1 • Dataset Configuration
         </span>
-        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+        <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           Choose Your Input Type
         </h2>
-        <p className="text-sm sm:text-base text-zinc-400 max-w-xl mx-auto">
+        <p className="text-xs sm:text-sm text-zinc-400 max-w-lg mx-auto">
           Supply your numbers via Manual Input, Synthetic Generation, or File Upload.
         </p>
       </div>
 
-      {/* 3 Animated Tactile Cards with 1° tilt and distinct personalities */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* CARD 1: MANUAL INPUT (Electric Blue) */}
+      {/* 3 Compact Tactile Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* CARD 1: MANUAL INPUT */}
         <motion.div
-          whileHover={{ y: -8, rotate: -1 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-          className={`group relative p-6 sm:p-7 rounded-3xl bg-zinc-900/85 border glass-panel transition-all duration-300 flex flex-col justify-between space-y-5 overflow-hidden ${
+          whileHover={{ y: -4 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+          className={`group relative p-5 sm:p-6 rounded-2xl backdrop-blur-xl border transition-all duration-300 flex flex-col justify-between space-y-4 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] ${
             activeInputType === 'manual'
-              ? 'border-blue-500 shadow-[0_0_35px_-5px_rgba(59,130,246,0.4)] bg-blue-950/20 ring-1 ring-blue-500/40'
-              : 'border-white/10 hover:border-blue-500/40 hover:shadow-[0_20px_40px_-10px_rgba(59,130,246,0.25)]'
+              ? 'border-[#C62832] shadow-[0_0_30px_-5px_rgba(198,40,50,0.35)] bg-[#12131A]/75 ring-1 ring-[#C62832]/40'
+              : 'bg-[#0B0C10]/65 border-white/10 hover:border-[#C62832]/40 hover:shadow-[0_12px_30px_-10px_rgba(0,0,0,0.5)]'
           }`}
         >
-          {/* Shimmer sweep */}
-          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-blue-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
-
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             <div className="flex items-center justify-between">
-              <div className="w-12 h-12 rounded-2xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shadow-md">
-                <Keyboard className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-[#14151B]/80 border border-white/10 flex items-center justify-center text-[#C62832] shadow-sm">
+                <Keyboard className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-blue-950/60 text-blue-300 border border-blue-500/30">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#14151B]/80 text-zinc-300 border border-white/10">
                 Live Validation
               </span>
             </div>
 
             <div>
-              <h3 className="text-xl font-black text-white">Manual Input</h3>
+              <h3 className="text-lg font-bold text-white">Manual Input</h3>
               <p className="text-xs text-zinc-400 mt-0.5">Type custom comma-separated numbers.</p>
             </div>
 
             <textarea
-              rows={4}
+              rows={3}
               value={manualText}
               onChange={(e) => {
                 setManualText(e.target.value);
                 setManualError(null);
               }}
               placeholder="e.g. 45, 12, 89, 7, 31, 64"
-              className="w-full p-3.5 rounded-2xl bg-zinc-950/70 border border-zinc-700/60 focus:border-blue-500 text-xs font-mono text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors resize-none shadow-inner"
+              className="w-full p-3 rounded-xl bg-[#07080A]/80 border border-zinc-700/60 focus:border-[#C62832] text-xs font-mono text-zinc-100 placeholder-zinc-600 focus:outline-none transition-colors resize-none shadow-inner"
             />
 
             {/* Counters & Live Feedback */}
@@ -219,11 +212,11 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
                 {manualText.length} chars • {parsedManualCount} items
               </span>
               {manualError ? (
-                <span className="text-rose-400 flex items-center gap-1 font-medium">
+                <span className="text-rose-400 flex items-center gap-1 font-medium text-[11px]">
                   <AlertCircle className="w-3.5 h-3.5" /> {manualError}
                 </span>
               ) : (
-                <span className="text-emerald-400 flex items-center gap-1 font-medium">
+                <span className="text-emerald-400 flex items-center gap-1 font-medium text-[11px]">
                   <CheckCircle2 className="w-3.5 h-3.5" /> Ready
                 </span>
               )}
@@ -232,43 +225,40 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
 
           <button
             onClick={handleManualSubmit}
-            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
+            className="w-full py-3 rounded-xl bg-[#C62832] hover:bg-[#E5383B] text-white font-bold text-xs shadow-md shadow-[#C62832]/25 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
           >
             <span>Apply Manual Dataset</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </motion.div>
 
-        {/* CARD 2: RANDOM GENERATOR (Neon Violet) */}
+        {/* CARD 2: RANDOM GENERATOR */}
         <motion.div
-          whileHover={{ y: -8, rotate: 1 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-          className={`group relative p-6 sm:p-7 rounded-3xl bg-zinc-900/85 border glass-panel transition-all duration-300 flex flex-col justify-between space-y-5 overflow-hidden ${
+          whileHover={{ y: -4 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+          className={`group relative p-5 sm:p-6 rounded-2xl backdrop-blur-xl border transition-all duration-300 flex flex-col justify-between space-y-4 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] ${
             activeInputType === 'random'
-              ? 'border-purple-500 shadow-[0_0_35px_-5px_rgba(168,85,247,0.4)] bg-purple-950/20 ring-1 ring-purple-500/40'
-              : 'border-white/10 hover:border-purple-500/40 hover:shadow-[0_20px_40px_-10px_rgba(168,85,247,0.25)]'
+              ? 'border-[#C62832] shadow-[0_0_30px_-5px_rgba(198,40,50,0.35)] bg-[#12131A]/75 ring-1 ring-[#C62832]/40'
+              : 'bg-[#0B0C10]/65 border-white/10 hover:border-[#C62832]/40 hover:shadow-[0_12px_30px_-10px_rgba(0,0,0,0.5)]'
           }`}
         >
-          {/* Shimmer sweep */}
-          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-purple-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
-
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             <div className="flex items-center justify-between">
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shadow-md">
-                <Dice5 className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-[#14151B]/80 border border-white/10 flex items-center justify-center text-[#C62832] shadow-sm">
+                <Dice5 className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-purple-950/60 text-purple-300 border border-purple-500/30">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#14151B]/80 text-zinc-300 border border-white/10">
                 Synthetic Scale
               </span>
             </div>
 
             <div>
-              <h3 className="text-xl font-black text-white">Random Generator</h3>
+              <h3 className="text-lg font-bold text-white">Random Generator</h3>
               <p className="text-xs text-zinc-400 mt-0.5">Synthesize structured data distributions.</p>
             </div>
 
             {/* Slider */}
-            <div className="space-y-1.5 pt-1">
+            <div className="space-y-1.5 pt-0.5">
               <div className="flex items-center justify-between text-xs text-zinc-400">
                 <span>Array Size:</span>
                 <span className="font-mono font-bold text-white">{formatNumber(genSize)} elements</span>
@@ -280,22 +270,22 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
                 step="5"
                 value={genSize}
                 onChange={(e) => setGenSize(Number(e.target.value))}
-                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-[#C62832]"
               />
               <div className="flex items-center justify-between text-[10px] text-zinc-500 font-mono">
-                <span>10 (Visualizer)</span>
+                <span>10 (Visual)</span>
                 <span>100</span>
                 <span>500</span>
               </div>
             </div>
 
             {/* Distribution Type Selection */}
-            <div className="space-y-1.5">
-              <label className="text-xs text-zinc-400">Distribution Type:</label>
+            <div className="space-y-1">
+              <label className="text-[11px] text-zinc-400">Distribution Type:</label>
               <select
                 value={genType}
                 onChange={(e) => setGenType(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-xs text-zinc-100 focus:outline-none focus:border-purple-500"
+                className="w-full px-2.5 py-2 rounded-xl bg-[#07080A]/80 border border-zinc-700/60 text-xs text-zinc-100 focus:outline-none focus:border-[#C62832]"
               >
                 <option value="random">Random (Uniform)</option>
                 <option value="sorted">Already Sorted (Ascending)</option>
@@ -308,49 +298,48 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
 
           <button
             onClick={handleGenSubmit}
-            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs shadow-lg shadow-purple-500/25 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
+            className="w-full py-3 rounded-xl bg-[#C62832] hover:bg-[#E5383B] text-white font-bold text-xs shadow-md shadow-[#C62832]/25 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99]"
           >
             <span>Generate & Continue</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </motion.div>
 
-        {/* CARD 3: FILE UPLOAD (Emerald / Cyan) */}
+        {/* CARD 3: FILE UPLOAD */}
         <motion.div
-          whileHover={{ y: -8, rotate: -1 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 20 }}
-          className={`group relative p-6 sm:p-7 rounded-3xl bg-zinc-900/85 border glass-panel transition-all duration-300 flex flex-col justify-between space-y-5 overflow-hidden ${
+          whileHover={{ y: -4 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+          className={`group relative p-5 sm:p-6 rounded-2xl backdrop-blur-xl border transition-all duration-300 flex flex-col justify-between space-y-4 overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] ${
             activeInputType === 'file'
-              ? 'border-emerald-500 shadow-[0_0_35px_-5px_rgba(16,185,129,0.4)] bg-emerald-950/20 ring-1 ring-emerald-500/40'
-              : 'border-white/10 hover:border-emerald-500/40 hover:shadow-[0_20px_40px_-10px_rgba(16,185,129,0.25)]'
+              ? 'border-[#C62832] shadow-[0_0_30px_-5px_rgba(198,40,50,0.35)] bg-[#12131A]/75 ring-1 ring-[#C62832]/40'
+              : 'bg-[#0B0C10]/65 border-white/10 hover:border-[#C62832]/40 hover:shadow-[0_12px_30px_-10px_rgba(0,0,0,0.5)]'
           }`}
         >
-          {/* Shimmer sweep */}
-          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-emerald-500/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
-
-          <div className="space-y-4">
+          <div className="space-y-3.5">
             <div className="flex items-center justify-between">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shadow-md">
-                <UploadCloud className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-[#18191F] border border-white/10 flex items-center justify-center text-[#C62832] shadow-md">
+                <UploadCloud className="w-5 h-5" />
               </div>
-              <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 font-bold">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#C62832]/10 text-rose-300 border border-[#C62832]/30 font-bold">
                 Enables Download ✓
               </span>
             </div>
 
             <div>
-              <h3 className="text-xl font-black text-white">File Upload</h3>
+              <h3 className="text-lg font-bold text-white">File Upload</h3>
               <p className="text-xs text-zinc-400 mt-0.5">Ingest Excel (.xlsx/.xls), CSV, or TXT.</p>
             </div>
 
-            {/* Dropzone Box or File Preview with Remove Button */}
-            {isExtracting ? (
+            {/* Dropzone Box or File Preview */}
+            {isUploading ? (
+              <SortingLoader message="Uploading Dataset File..." subtext="Transferring file to server..." />
+            ) : isExtracting ? (
               <SortingLoader message="Extracting Data Columns..." subtext="Parsing spreadsheet matrix into array..." />
             ) : uploadedFile ? (
-              <div className="p-4 rounded-2xl bg-zinc-950/70 border border-emerald-500/30 space-y-3">
+              <div className="p-3 rounded-xl bg-[#08090B] border border-zinc-700/60 space-y-2.5">
                 <div className="flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2.5 truncate">
-                    <FileSpreadsheet className="w-5 h-5 text-emerald-400 shrink-0" />
+                  <div className="flex items-center gap-2 truncate">
+                    <FileSpreadsheet className="w-4 h-4 text-[#C62832] shrink-0" />
                     <div className="truncate">
                       <p className="text-xs font-bold text-white truncate">{uploadedFile.name}</p>
                       <p className="text-[10px] text-zinc-400 font-mono">
@@ -359,56 +348,56 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
                     </div>
                   </div>
 
-                  {/* PROMINENT REMOVE FILE BUTTON */}
+                  {/* Remove Button */}
                   <button
                     type="button"
                     onClick={handleRemoveFile}
-                    className="p-1.5 rounded-xl bg-rose-950/50 hover:bg-rose-900/60 text-rose-300 border border-rose-500/30 transition-all text-xs flex items-center gap-1 shrink-0"
+                    className="p-1 rounded-lg bg-zinc-800 hover:bg-rose-950/40 text-zinc-300 hover:text-rose-400 border border-white/10 transition-all text-xs flex items-center gap-1 shrink-0"
                     title="Remove this file and choose another"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
-                    <span className="text-[11px] font-medium hidden sm:inline">Remove</span>
+                    <span className="text-[10px] hidden sm:inline">Remove</span>
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-emerald-300/80 bg-emerald-950/30 px-2.5 py-1 rounded-lg border border-emerald-500/20">
+                <div className="flex items-center justify-between text-[11px] text-zinc-300 bg-[#18191F] px-2 py-1 rounded-lg border border-white/5">
                   <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3 h-3 text-emerald-400" /> File uploaded
+                    <CheckCircle2 className="w-3 h-3 text-[#C62832]" /> File uploaded
                   </span>
-                  <span>Click confirm below</span>
+                  <span className="text-[10px] text-zinc-400">Click confirm below</span>
                 </div>
               </div>
             ) : (
               <div
                 {...getRootProps()}
-                className={`border-2 border-dashed rounded-2xl p-5 text-center cursor-pointer transition-all duration-200 relative overflow-hidden ${
+                className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all duration-200 relative overflow-hidden ${
                   isDragActive
-                    ? 'border-emerald-500 bg-emerald-500/10 scale-[1.01]'
-                    : 'border-zinc-700 hover:border-zinc-500 bg-zinc-950/30'
+                    ? 'border-[#C62832] bg-[#C62832]/10 scale-[1.01]'
+                    : 'border-zinc-700 hover:border-zinc-500 bg-[#08090B]/60'
                 }`}
               >
                 <input {...getInputProps()} />
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   <p className="text-xs font-semibold text-zinc-300">
                     {isDragActive ? 'Drop file here' : 'Drop dataset or click to browse'}
                   </p>
-                  <p className="text-[10px] text-zinc-500">
+                  <p className="text-[10px] text-zinc-500 font-mono">
                     .XLSX, .XLS, .CSV, .TXT (up to 25MB)
                   </p>
                 </div>
               </div>
             )}
 
-            {/* Column / Sheet Selection if Excel or CSV */}
-            {fileInspection && uploadedFile && !isExtracting && (
-              <div className="space-y-2 pt-1">
+            {/* Column / Sheet Selection */}
+            {fileInspection && uploadedFile && !isExtracting && !isUploading && (
+              <div className="space-y-1.5 pt-0.5">
                 {fileInspection.sheets?.length > 1 && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-zinc-400 w-16">Sheet:</span>
+                    <span className="text-[11px] text-zinc-400 w-14">Sheet:</span>
                     <select
                       value={selectedSheet}
                       onChange={(e) => setSelectedSheet(e.target.value)}
-                      className="flex-1 px-2.5 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-white"
+                      className="flex-1 px-2 py-1 rounded-lg bg-[#08090B] border border-zinc-700 text-xs text-white"
                     >
                       {fileInspection.sheets.map((s) => (
                         <option key={s} value={s}>{s}</option>
@@ -419,11 +408,11 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
 
                 {fileInspection.columns?.length > 0 && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-zinc-400 w-16">Column:</span>
+                    <span className="text-[11px] text-zinc-400 w-14">Column:</span>
                     <select
                       value={selectedColumn}
                       onChange={(e) => setSelectedColumn(Number(e.target.value))}
-                      className="flex-1 px-2.5 py-1.5 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-white"
+                      className="flex-1 px-2 py-1 rounded-lg bg-[#08090B] border border-zinc-700 text-xs text-white"
                     >
                       {fileInspection.columns.map((c) => (
                         <option key={c.index} value={c.index}>
@@ -437,11 +426,10 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
             )}
           </div>
 
-          {/* USER MUST CLICK THIS BUTTON TO EXTRACT AND REVEAL NEXT STEP */}
           <button
             onClick={handleFileExtract}
-            disabled={!fileInspection || isExtracting}
-            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-40 hover:scale-[1.01] active:scale-[0.99]"
+            disabled={!fileInspection || isExtracting || isUploading}
+            className="w-full py-3 rounded-xl bg-[#C62832] hover:bg-[#E5383B] text-white font-bold text-xs shadow-md shadow-[#C62832]/25 transition-all flex items-center justify-center gap-2 disabled:opacity-40 hover:scale-[1.01] active:scale-[0.99]"
           >
             <span>Confirm File Extraction</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -454,7 +442,7 @@ export const InputSection = ({ onInputReady, activeInputType, datasetSummary }) 
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-4 rounded-2xl bg-zinc-950/70 border border-white/10 flex items-center justify-between text-xs text-zinc-300"
+          className="p-3.5 rounded-xl bg-[#111216] border border-white/10 flex items-center justify-between text-xs text-zinc-300"
         >
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-emerald-400" />

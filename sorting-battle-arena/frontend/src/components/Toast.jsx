@@ -25,36 +25,37 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ addToast, removeToast }}>
       {children}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none max-w-md w-full">
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none max-w-md w-full px-4 sm:px-0">
         <AnimatePresence>
           {toasts.map((toast) => {
             const icons = {
               success: <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />,
-              error: <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />,
+              error: <AlertCircle className="w-5 h-5 text-[#FF3B47] shrink-0" />,
               warning: <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />,
-              info: <Info className="w-5 h-5 text-blue-400 shrink-0" />
+              info: <Info className="w-5 h-5 text-[#C62832] shrink-0" />
             };
 
             const borderColors = {
-              success: 'border-emerald-500/30 bg-emerald-950/40 text-emerald-100',
-              error: 'border-rose-500/30 bg-rose-950/40 text-rose-100',
-              warning: 'border-amber-500/30 bg-amber-950/40 text-amber-100',
-              info: 'border-blue-500/30 bg-blue-950/40 text-blue-100'
+              success: 'border-emerald-500/30 bg-[#111216]/95 text-emerald-200',
+              error: 'border-[#C62832]/50 bg-[#111216]/95 text-[#F2F2F3]',
+              warning: 'border-amber-500/30 bg-[#111216]/95 text-amber-200',
+              info: 'border-[#C62832]/30 bg-[#111216]/95 text-[#F2F2F3]'
             };
 
             return (
               <motion.div
                 key={toast.id}
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                initial={{ opacity: 0, y: 15, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
-                className={`pointer-events-auto flex items-start gap-3 p-4 rounded-2xl border backdrop-blur-xl shadow-2xl ${borderColors[toast.type] || borderColors.info}`}
+                exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.15 } }}
+                className={`pointer-events-auto flex items-start gap-3 p-4 rounded-xl border backdrop-blur-xl shadow-2xl relative overflow-hidden ${borderColors[toast.type] || borderColors.info}`}
               >
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#C62832]/40 to-transparent" />
                 {icons[toast.type] || icons.info}
-                <div className="flex-1 text-sm font-medium leading-snug">{toast.message}</div>
+                <div className="flex-1 text-xs font-mono leading-relaxed">{toast.message}</div>
                 <button
                   onClick={() => removeToast(toast.id)}
-                  className="opacity-70 hover:opacity-100 transition-opacity p-0.5"
+                  className="opacity-70 hover:opacity-100 transition-opacity p-0.5 text-[#A1A1AA]"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -74,3 +75,5 @@ export const useToast = () => {
   }
   return context;
 };
+
+export default ToastProvider;

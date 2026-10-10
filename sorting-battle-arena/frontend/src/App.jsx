@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ToastProvider, useToast } from './components/Toast';
 import MouseGlow from './components/MouseGlow';
+import ThreeBackground from './components/ThreeBackground';
 import HeroSection from './components/HeroSection';
 import InputSection from './components/InputSection';
 import BattleModeSection from './components/BattleModeSection';
@@ -9,6 +10,7 @@ import PerformanceSection from './components/PerformanceSection';
 import ComplexitySection from './components/ComplexitySection';
 import HistorySection from './components/HistorySection';
 import sortingApi from './services/api';
+import soundEffects from './utils/soundEffects';
 
 const MainExperience = () => {
   const { addToast } = useToast();
@@ -20,6 +22,7 @@ const MainExperience = () => {
   // 4 = Performance Analytics & Download
   const [unlockedStep, setUnlockedStep] = useState(1);
   const [heroCompressed, setHeroCompressed] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(soundEffects.isEnabled());
 
   // Active dataset state
   const [dataset, setDataset] = useState([45, 12, 89, 7, 31, 64, 22, 90, 18, 53, 37, 72, 85, 29, 6, 99]);
@@ -30,16 +33,20 @@ const MainExperience = () => {
   // Battle Mode and Algorithm selection state
   const [selectedMode, setSelectedMode] = useState('Multi'); // 'Single' or 'Multi'
   const [selectedAlgos, setSelectedAlgos] = useState(['quick', 'merge']);
-  // Confirmed algorithms locked for Step 3 - ONLY set when user explicitly clicks "Enter Arena & Begin Battle"
   const [confirmedBattleAlgos, setConfirmedBattleAlgos] = useState([]);
 
-  // Results & Download state (Conditional download)
+  // Results & Download state
   const [battleResults, setBattleResults] = useState([]);
   const [downloadInfo, setDownloadInfo] = useState(null);
   const [arenaKey, setArenaKey] = useState(1);
 
-  // When user alters mode or checks/unchecks algorithms in Step 2:
-  // Immediately lock Step 3 so the arena NEVER runs automatically!
+  const handleToggleSound = () => {
+    const active = soundEffects.toggleSound();
+    setSoundEnabled(active);
+    addToast(active ? 'Tactile audio effects enabled' : 'Audio muted', 'info');
+  };
+
+  // When user alters mode or toggles algorithms in Step 2:
   const handleSelectionChange = () => {
     if (unlockedStep > 2) {
       setUnlockedStep(2);
@@ -82,7 +89,6 @@ const MainExperience = () => {
 
   // 3. Battle Mode Submission: USER CLICKS "Enter Arena & Begin Battle" -> Only reveals Step 3 and runs!
   const handleEnterArena = async () => {
-    // Lock confirmed algorithms strictly from the current user selection
     setConfirmedBattleAlgos([...selectedAlgos]);
     setUnlockedStep(3);
     setArenaKey(Date.now());
@@ -121,7 +127,7 @@ const MainExperience = () => {
   // 4. Battle Completion: Triggered ONLY when user explicitly clicks "View Performance Analytics & Results ↓"
   const handleProceedToPerformance = () => {
     setUnlockedStep(4);
-    addToast('Revealing empirical analytics and performance metrics below!', 'success');
+    addToast('Revealing empirical analytics and performance metrics below!', 'info');
 
     setTimeout(() => {
       const perfEl = document.getElementById('performance-section');
@@ -132,26 +138,31 @@ const MainExperience = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#09090b] text-zinc-100 overflow-x-hidden selection:bg-blue-600/30 selection:text-blue-200">
-      {/* Background Cursor Glow and Mesh Orbs */}
+    <div className="relative min-h-screen bg-[#08090B] text-zinc-100 overflow-x-hidden selection:bg-[#C62832]/30 selection:text-white">
+      {/* Real Animated Three.js 3D Background with Depth & Dynamic Lighting */}
+      <ThreeBackground />
+
+      {/* Atmospheric Cursor Glow and Ambient Noise */}
       <MouseGlow />
 
       {/* Main Continuous Step-by-Step Flow */}
-      <main className="relative z-10 space-y-4">
+      <main className="relative z-10 space-y-4 sm:space-y-6 pb-16 sm:pb-24">
         {/* Hero Section */}
         <HeroSection
           onStartSorting={handleStartSorting}
           isCompressed={heroCompressed}
+          soundEnabled={soundEnabled}
+          onToggleSound={handleToggleSound}
         />
 
-        {/* Step 1: Choose Input Type (Always Available) */}
+        {/* Step 1: Choose Input Type */}
         <InputSection
           onInputReady={handleInputReady}
           activeInputType={inputType}
           datasetSummary={datasetSummary}
         />
 
-        {/* Step 2: Choose Battle Mode & Competitors (ONLY REVEALED AFTER STEP 1 BUTTON IS CLICKED) */}
+        {/* Step 2: Choose Battle Mode & Competitors (Revealed after Step 1 is ready) */}
         {unlockedStep >= 2 && (
           <BattleModeSection
             selectedMode={selectedMode}
@@ -163,7 +174,7 @@ const MainExperience = () => {
           />
         )}
 
-        {/* Step 3: Live Battle Arena (ONLY REVEALED AFTER "Enter Arena" IS CLICKED) */}
+        {/* Step 3: Live Battle Arena (Revealed after "Enter Arena" is clicked) */}
         {unlockedStep >= 3 && confirmedBattleAlgos.length > 0 && (
           <BattleArenaSection
             key={arenaKey}
@@ -174,7 +185,7 @@ const MainExperience = () => {
           />
         )}
 
-        {/* Step 4: Performance Analytics & Conditional Download (ONLY REVEALED AFTER BATTLE COMPLETES) */}
+        {/* Step 4: Performance Analytics & Conditional Download */}
         {unlockedStep >= 4 && (
           <PerformanceSection
             battleResults={battleResults}
@@ -189,14 +200,6 @@ const MainExperience = () => {
 
         {/* Step 6: History & Audit Log */}
         <HistorySection />
-
-        {/* Minimal Footer */}
-        <footer className="py-12 border-t border-white/5 text-center text-xs text-zinc-500 max-w-7xl mx-auto px-4">
-          <p className="font-semibold text-zinc-400">Sorting Battle Arena • Enhanced V2</p>
-          <p className="mt-1">
-            Design and Analysis of Algorithms (DAA) • 100% Pure Manual Implementations • 2026
-          </p>
-        </footer>
       </main>
     </div>
   );

@@ -5,7 +5,7 @@ export const ComplexitySection = () => {
   const algorithms = [
     {
       name: 'Bubble Sort',
-      color: 'bg-blue-500',
+      accent: '#C62832',
       best: 'O(N)',
       avg: 'O(N²)',
       worst: 'O(N²)',
@@ -15,7 +15,7 @@ export const ComplexitySection = () => {
     },
     {
       name: 'Selection Sort',
-      color: 'bg-amber-500',
+      accent: '#843C43',
       best: 'O(N²)',
       avg: 'O(N²)',
       worst: 'O(N²)',
@@ -25,7 +25,7 @@ export const ComplexitySection = () => {
     },
     {
       name: 'Insertion Sort',
-      color: 'bg-emerald-500',
+      accent: '#E5383B',
       best: 'O(N)',
       avg: 'O(N²)',
       worst: 'O(N²)',
@@ -35,7 +35,7 @@ export const ComplexitySection = () => {
     },
     {
       name: 'Merge Sort',
-      color: 'bg-purple-500',
+      accent: '#A1A1AA',
       best: 'O(N log N)',
       avg: 'O(N log N)',
       worst: 'O(N log N)',
@@ -45,7 +45,7 @@ export const ComplexitySection = () => {
     },
     {
       name: 'Quick Sort',
-      color: 'bg-rose-500',
+      accent: '#FF5A64',
       best: 'O(N log N)',
       avg: 'O(N log N)',
       worst: 'O(N²)',
@@ -55,7 +55,7 @@ export const ComplexitySection = () => {
     },
     {
       name: 'Heap Sort',
-      color: 'bg-cyan-500',
+      accent: '#C62832',
       best: 'O(N log N)',
       avg: 'O(N log N)',
       worst: 'O(N log N)',
@@ -66,13 +66,13 @@ export const ComplexitySection = () => {
   ];
 
   return (
-    <section id="complexity-section" className="relative py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-6">
-      {/* Header */}
+    <section id="complexity-section" className="relative py-10 sm:py-14 px-4 sm:px-6 max-w-6xl mx-auto space-y-6">
+      {/* Restored Original Section Header */}
       <div className="text-center space-y-1.5">
-        <span className="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center justify-center gap-1.5">
+        <span className="text-xs font-bold uppercase tracking-wider text-[#C62832] flex items-center justify-center gap-1.5">
           <BookOpen className="w-3.5 h-3.5" /> Step 5 • Algorithmic Theory & Specs
         </span>
-        <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+        <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
           Algorithm Complexity & Overview
         </h2>
         <p className="text-xs sm:text-sm text-zinc-400 max-w-lg mx-auto">
@@ -81,79 +81,61 @@ export const ComplexitySection = () => {
       </div>
 
       {/* Small Clean Comparative Table */}
-      <div className="rounded-3xl bg-zinc-900/80 border border-white/10 glass-panel overflow-hidden shadow-xl">
+      <div className="rounded-2xl bg-[#0B0C10]/65 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-white/10 bg-zinc-950/60 text-[11px] font-bold text-zinc-300 uppercase tracking-wider">
-                <th className="py-3.5 px-5">Algorithm</th>
-                <th className="py-3.5 px-4 text-center">Best Case</th>
-                <th className="py-3.5 px-4 text-center">Average Case</th>
-                <th className="py-3.5 px-4 text-center">Worst Case</th>
-                <th className="py-3.5 px-4 text-center">Space</th>
-                <th className="py-3.5 px-4 text-center">Stability</th>
-                <th className="py-3.5 px-5 min-w-[280px]">Definition</th>
+              <tr className="border-b border-white/5 bg-[#08090C]/80 text-[10px] font-bold text-zinc-300 uppercase tracking-wider font-mono">
+                <th className="py-3 px-4 sm:px-5">Algorithm</th>
+                <th className="py-3 px-3 text-center">Best Case</th>
+                <th className="py-3 px-3 text-center">Average Case</th>
+                <th className="py-3 px-3 text-center">Worst Case</th>
+                <th className="py-3 px-3 text-center">Space</th>
+                <th className="py-3 px-3 text-center">Stability</th>
+                <th className="py-3 px-4 sm:px-5 min-w-[260px]">Definition</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {algorithms.map((algo) => (
                 <tr key={algo.name} className="hover:bg-zinc-800/40 transition-colors">
-                  {/* Algorithm Name with Dot */}
-                  <td className="py-3.5 px-5">
-                    <div className="flex items-center gap-2.5">
-                      <span className={`w-2.5 h-2.5 rounded-full ${algo.color} shrink-0`} />
-                      <span className="font-extrabold text-white text-sm whitespace-nowrap">{algo.name}</span>
+                  {/* Algorithm Name */}
+                  <td className="py-3 px-4 sm:px-5">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#C62832] shrink-0" />
+                      <span className="font-extrabold text-white text-xs sm:text-sm whitespace-nowrap">{algo.name}</span>
                     </div>
                   </td>
 
                   {/* Best Case */}
-                  <td className="py-3.5 px-4 text-center font-mono">
-                    <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-[11px] ${
-                      algo.best === 'O(N)'
-                        ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                    }`}>
+                  <td className="py-3 px-3 text-center font-mono">
+                    <span className="inline-block px-2 py-0.5 rounded-md font-bold text-[10px] bg-[#18191F] text-emerald-400 border border-emerald-500/30">
                       {algo.best}
                     </span>
                   </td>
 
                   {/* Average Case */}
-                  <td className="py-3.5 px-4 text-center font-mono">
-                    <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-[11px] ${
-                      algo.avg.includes('log N')
-                        ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                        : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
-                    }`}>
+                  <td className="py-3 px-3 text-center font-mono">
+                    <span className="inline-block px-2 py-0.5 rounded-md font-bold text-[10px] bg-[#18191F] text-white border border-white/10">
                       {algo.avg}
                     </span>
                   </td>
 
                   {/* Worst Case */}
-                  <td className="py-3.5 px-4 text-center font-mono">
-                    <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-[11px] ${
-                      algo.worst.includes('log N')
-                        ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                        : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
-                    }`}>
+                  <td className="py-3 px-3 text-center font-mono">
+                    <span className="inline-block px-2 py-0.5 rounded-md font-bold text-[10px] bg-[#18191F] text-[#FF5A64] border border-[#C62832]/30">
                       {algo.worst}
                     </span>
                   </td>
 
                   {/* Space */}
-                  <td className="py-3.5 px-4 text-center font-mono">
-                    <span className={`inline-block px-2 py-0.5 rounded-md font-bold text-[11px] ${
-                      algo.space === 'O(1)'
-                        ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
-                        : algo.space === 'O(log N)'
-                        ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30'
-                        : 'bg-orange-500/15 text-orange-300 border border-orange-500/30'
-                    }`}>
+                  <td className="py-3 px-3 text-center font-mono">
+                    <span className="inline-block px-2 py-0.5 rounded-md font-bold text-[10px] bg-[#18191F] text-zinc-300 border border-white/10">
                       {algo.space}
                     </span>
                   </td>
 
                   {/* Stability */}
-                  <td className="py-3.5 px-4 text-center whitespace-nowrap">
+                  <td className="py-3 px-3 text-center whitespace-nowrap">
                     <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
                       algo.stable
                         ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
@@ -173,8 +155,8 @@ export const ComplexitySection = () => {
                     </span>
                   </td>
 
-                  {/* Small Definition */}
-                  <td className="py-3.5 px-5 text-zinc-300 text-xs leading-relaxed">
+                  {/* Definition */}
+                  <td className="py-3 px-4 sm:px-5 text-zinc-300 text-xs leading-relaxed">
                     {algo.definition}
                   </td>
                 </tr>

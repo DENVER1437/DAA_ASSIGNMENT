@@ -4,15 +4,9 @@ import {
   BarChart3,
   Trophy,
   Download,
-  Clock,
   ArrowUpDown,
-  Repeat,
-  HardDrive,
-  FileCheck2,
   Sparkles,
-  Zap,
-  TrendingDown,
-  TrendingUp
+  Zap
 } from 'lucide-react';
 import {
   BarChart,
@@ -30,21 +24,16 @@ import { useToast } from './Toast';
 
 // Smooth count-up ticker for empirical metrics
 const AnimatedNumber = ({ value, decimals = 0, suffix = '', prefix = '' }) => {
-  const [displayValue, setDisplayValue] = useState(0);
+  const [displayValue, setDisplayValue] = useState(() => Number(value) || 0);
 
   useEffect(() => {
     const end = Number(value) || 0;
-    if (end === 0) {
-      setDisplayValue(0);
-      return;
-    }
-    const duration = 900;
+    const duration = 800;
     const startTime = performance.now();
 
     const frame = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // easeOutExpo
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       const current = end * ease;
       setDisplayValue(current);
@@ -105,8 +94,8 @@ export const PerformanceSection = ({
   const getMetricLabel = () => {
     switch (activeMetricTab) {
       case 'time': return 'Execution Time (ms)';
-      case 'comparisons': return 'Total Comparisons (Count)';
-      case 'swaps': return 'Total Swaps / Shifts (Count)';
+      case 'comparisons': return 'Total Comparisons';
+      case 'swaps': return 'Total Swaps / Shifts';
       default: return '';
     }
   };
@@ -119,36 +108,36 @@ export const PerformanceSection = ({
 
   // Gradient configurations for the bars
   const barGradients = [
-    { id: 'gradBlue', start: '#3B82F6', end: '#1D4ED8' },
-    { id: 'gradPurple', start: '#8B5CF6', end: '#6D28D9' },
-    { id: 'gradEmerald', start: '#10B981', end: '#047857' },
-    { id: 'gradPink', start: '#F43F5E', end: '#BE123C' },
-    { id: 'gradAmber', start: '#F59E0B', end: '#B45309' },
-    { id: 'gradCyan', start: '#06B6D4', end: '#0E7490' }
+    { id: 'gradCrimson1', start: '#FF3B47', end: '#C62832' },
+    { id: 'gradCrimson2', start: '#E5383B', end: '#843C43' },
+    { id: 'gradCrimson3', start: '#C62832', end: '#581C20' },
+    { id: 'gradCrimson4', start: '#843C43', end: '#300C0F' },
+    { id: 'gradCrimson5', start: '#A1A1AA', end: '#424553' },
+    { id: 'gradCrimson6', start: '#FF5A64', end: '#843C43' }
   ];
 
   return (
-    <section id="performance-section" className="relative py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
-      {/* Header & Conditional Download Button */}
-      <div className="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-white/5">
+    <section id="performance-section" className="relative py-10 sm:py-14 px-4 sm:px-6 max-w-6xl mx-auto space-y-8">
+      {/* Restored Original Section Header & Conditional Download Button */}
+      <div className="flex items-center justify-between flex-wrap gap-4 pb-3 border-b border-white/5">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#C62832] flex items-center gap-1.5">
             <Zap className="w-3.5 h-3.5" /> Step 4 • Empirical Analytics & Export
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-1">
+          <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-1">
             Performance Results
           </h2>
-          <p className="text-sm text-zinc-400 mt-1">
+          <p className="text-xs sm:text-sm text-zinc-400 mt-0.5">
             Comparing exactly {battleResults.length} selected algorithm{battleResults.length > 1 ? 's' : ''} on {datasetSize.toLocaleString()} elements.
           </p>
         </div>
 
-        {/* CONDITIONAL DOWNLOAD BUTTON: ONLY SHOWN IF FILE UPLOAD WAS SELECTED */}
+        {/* CONDITIONAL DOWNLOAD BUTTON */}
         {inputType === 'file' && downloadInfo ? (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
             <button
               onClick={handleDownload}
-              className="flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs shadow-xl shadow-emerald-500/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-gradient-to-r from-[#C62832] to-[#E5383B] hover:from-[#E5383B] hover:to-[#FF3B47] text-white font-bold text-xs shadow-lg shadow-[#C62832]/25 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <Download className="w-4 h-4" />
               <span>Download Sorted {downloadInfo.format.toUpperCase()}</span>
@@ -158,7 +147,7 @@ export const PerformanceSection = ({
             </span>
           </motion.div>
         ) : (
-          <div className="p-3 rounded-2xl bg-zinc-950/60 border border-white/5 text-right">
+          <div className="p-2.5 rounded-xl bg-[#111216] border border-white/5 text-right">
             <span className="text-xs text-zinc-400 font-medium block">Export Status:</span>
             <span className="text-[11px] text-zinc-500 font-mono">
               Downloads only generated for File Upload mode
@@ -170,30 +159,30 @@ export const PerformanceSection = ({
       {/* Champion Winner Spotlight Card */}
       {champion && (
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="p-6 sm:p-7 rounded-[24px] bg-gradient-to-r from-emerald-950/40 via-blue-950/30 to-purple-950/20 border border-emerald-500/30 shadow-2xl flex items-center justify-between flex-wrap gap-4 relative overflow-hidden"
+          className="p-5 sm:p-6 rounded-2xl bg-[#0B0C10]/75 backdrop-blur-xl border border-[#C62832]/40 shadow-[0_8px_32px_rgba(198,40,50,0.2)] flex items-center justify-between flex-wrap gap-4 relative overflow-hidden"
         >
           <div className="flex items-center gap-4 relative z-10">
-            <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-xl shadow-emerald-500/20">
-              <Trophy className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-xl bg-[#C62832]/20 border border-[#C62832]/40 flex items-center justify-center text-[#FF5A64] shadow-md">
+              <Trophy className="w-7 h-7" />
             </div>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#C62832] flex items-center gap-1 font-mono">
                 <Sparkles className="w-3 h-3" /> Fastest Algorithm
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black text-white">{champion.name}</h3>
-              <p className="text-xs text-zinc-300 mt-1">
+              <h3 className="text-xl sm:text-2xl font-black text-white">{champion.name}</h3>
+              <p className="text-xs text-zinc-300 mt-0.5">
                 Completed in{' '}
-                <span className="text-emerald-300 font-bold font-mono text-sm">
+                <span className="text-white font-bold font-mono text-sm">
                   <AnimatedNumber value={champion.executionTimeMs} decimals={3} suffix=" ms" />
                 </span>{' '}
                 with{' '}
-                <span className="text-zinc-100 font-bold font-mono">
+                <span className="text-white font-bold font-mono">
                   <AnimatedNumber value={champion.comparisons} />
                 </span>{' '}
                 comparisons and{' '}
-                <span className="text-zinc-100 font-bold font-mono">
+                <span className="text-[#FF5A64] font-bold font-mono">
                   <AnimatedNumber value={champion.swaps} />
                 </span>{' '}
                 swaps.
@@ -202,23 +191,23 @@ export const PerformanceSection = ({
           </div>
 
           <div className="flex items-center gap-3 relative z-10">
-            <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-white/10 text-center">
-              <span className="text-zinc-400 block text-[10px] uppercase font-mono">Space Auxiliary</span>
-              <span className="font-mono font-bold text-purple-400 text-sm">{champion.complexity?.space || 'O(1)'}</span>
+            <div className="p-2.5 rounded-xl bg-[#18191F] border border-white/10 text-center min-w-[90px]">
+              <span className="text-zinc-400 block text-[9px] uppercase font-mono">Space Auxiliary</span>
+              <span className="font-mono font-bold text-white text-xs">{champion.complexity?.space || 'O(1)'}</span>
             </div>
-            <div className="p-3.5 rounded-2xl bg-zinc-900/80 border border-white/10 text-center">
-              <span className="text-zinc-400 block text-[10px] uppercase font-mono">Time Complexity</span>
-              <span className="font-mono font-bold text-emerald-400 text-sm">{champion.complexity?.average || 'O(N log N)'}</span>
+            <div className="p-2.5 rounded-xl bg-[#18191F] border border-white/10 text-center min-w-[90px]">
+              <span className="text-zinc-400 block text-[9px] uppercase font-mono">Time Complexity</span>
+              <span className="font-mono font-bold text-[#C62832] text-xs">{champion.complexity?.average || 'O(N log N)'}</span>
             </div>
           </div>
         </motion.div>
       )}
 
-      {/* PERFORMANCE TABLE (Animated Row Entrance) */}
-      <div className="rounded-[24px] bg-zinc-900/80 border border-white/10 glass-panel overflow-hidden shadow-xl">
-        <div className="p-5 border-b border-white/5 flex items-center justify-between">
+      {/* PERFORMANCE TABLE */}
+      <div className="rounded-2xl bg-[#0B0C10]/65 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] overflow-hidden">
+        <div className="p-4 sm:p-5 border-b border-white/5 flex items-center justify-between">
           <h4 className="text-sm font-bold text-white flex items-center gap-2">
-            <ArrowUpDown className="w-4 h-4 text-blue-400" />
+            <ArrowUpDown className="w-4 h-4 text-[#C62832]" />
             <span>Comparative Performance Table</span>
           </h4>
           <span className="text-xs text-zinc-400 font-mono">N = {datasetSize.toLocaleString()}</span>
@@ -227,47 +216,47 @@ export const PerformanceSection = ({
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-white/5 bg-zinc-950/40 text-[11px] font-semibold text-zinc-400 uppercase tracking-wider">
-                <th className="py-3.5 px-5">Algorithm</th>
-                <th className="py-3.5 px-5">Execution Time</th>
-                <th className="py-3.5 px-5">Comparisons</th>
-                <th className="py-3.5 px-5">Swaps / Shifts</th>
-                <th className="py-3.5 px-5">Space (Auxiliary)</th>
-                <th className="py-3.5 px-5">Stability</th>
+              <tr className="border-b border-white/5 bg-[#08090C]/80 text-[10px] font-semibold text-zinc-400 uppercase tracking-wider font-mono">
+                <th className="py-3 px-4 sm:px-5">Algorithm</th>
+                <th className="py-3 px-4 sm:px-5">Execution Time</th>
+                <th className="py-3 px-4 sm:px-5">Comparisons</th>
+                <th className="py-3 px-4 sm:px-5">Swaps / Shifts</th>
+                <th className="py-3 px-4 sm:px-5">Space (Auxiliary)</th>
+                <th className="py-3 px-4 sm:px-5">Stability</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               {battleResults.map((item, idx) => (
                 <motion.tr
                   key={item.id || idx}
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.08 }}
+                  transition={{ delay: idx * 0.06 }}
                   className={`hover:bg-zinc-800/40 transition-colors ${
-                    item.name === champion?.name ? 'bg-emerald-500/5' : ''
+                    item.name === champion?.name ? 'bg-[#C62832]/5' : ''
                   }`}
                 >
-                  <td className="py-4 px-5 font-bold text-white flex items-center gap-2.5">
-                    <span className="text-sm">{item.name}</span>
+                  <td className="py-3.5 px-4 sm:px-5 font-bold text-white flex items-center gap-2">
+                    <span className="text-xs sm:text-sm">{item.name}</span>
                     {item.name === champion?.name && (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#C62832]/20 text-[#FF5A64] border border-[#C62832]/40 font-mono">
                         Winner #1
                       </span>
                     )}
                   </td>
-                  <td className="py-4 px-5 font-mono font-bold text-emerald-400 text-sm">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono font-bold text-white text-xs sm:text-sm">
                     <AnimatedNumber value={item.executionTimeMs} decimals={3} suffix=" ms" />
                   </td>
-                  <td className="py-4 px-5 font-mono text-zinc-200">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-zinc-200">
                     <AnimatedNumber value={item.comparisons} />
                   </td>
-                  <td className="py-4 px-5 font-mono text-zinc-200">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-[#FF5A64] font-semibold">
                     <AnimatedNumber value={item.swaps} />
                   </td>
-                  <td className="py-4 px-5 font-mono text-purple-400 font-semibold">
+                  <td className="py-3.5 px-4 sm:px-5 font-mono text-white font-semibold">
                     {item.complexity?.space || 'O(1)'}
                   </td>
-                  <td className="py-4 px-5">
+                  <td className="py-3.5 px-4 sm:px-5">
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
                       item.complexity?.stable
                         ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
@@ -283,17 +272,17 @@ export const PerformanceSection = ({
         </div>
       </div>
 
-      {/* DYNAMIC CHARTS (Only for Selected Algorithms) */}
+      {/* DYNAMIC CHARTS */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="p-6 sm:p-7 rounded-[24px] bg-zinc-900/80 border border-white/10 glass-panel space-y-6 shadow-2xl relative overflow-hidden group hover:border-white/20 transition-all"
+        transition={{ duration: 0.5 }}
+        className="p-5 sm:p-6 rounded-2xl bg-[#0B0C10]/65 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] space-y-4"
       >
-        <div className="flex items-center justify-between flex-wrap gap-4 border-b border-white/5 pb-4">
+        <div className="flex items-center justify-between flex-wrap gap-3 border-b border-white/5 pb-3">
           <div>
-            <h4 className="text-base font-extrabold text-white flex items-center gap-2">
-              <BarChart3 className="w-5 h-5 text-purple-400" />
+            <h4 className="text-sm sm:text-base font-extrabold text-white flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-[#C62832]" />
               <span>Visual Comparative Chart</span>
             </h4>
             <p className="text-xs text-zinc-400 mt-0.5">
@@ -302,12 +291,12 @@ export const PerformanceSection = ({
           </div>
 
           {/* Metric Selector Tabs */}
-          <div className="flex items-center p-1 rounded-2xl bg-zinc-950/80 border border-white/10 text-xs">
+          <div className="flex items-center p-1 rounded-xl bg-[#08090B] border border-white/10 text-xs">
             <button
               onClick={() => setActiveMetricTab('time')}
-              className={`px-3.5 py-1.5 rounded-xl font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
                 activeMetricTab === 'time'
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                  ? 'bg-[#C62832] text-white shadow-md'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -315,9 +304,9 @@ export const PerformanceSection = ({
             </button>
             <button
               onClick={() => setActiveMetricTab('comparisons')}
-              className={`px-3.5 py-1.5 rounded-xl font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
                 activeMetricTab === 'comparisons'
-                  ? 'bg-amber-600 text-white shadow-lg shadow-amber-500/30'
+                  ? 'bg-[#C62832] text-white shadow-md'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -325,9 +314,9 @@ export const PerformanceSection = ({
             </button>
             <button
               onClick={() => setActiveMetricTab('swaps')}
-              className={`px-3.5 py-1.5 rounded-xl font-bold transition-all ${
+              className={`px-3 py-1.5 rounded-lg font-bold transition-all ${
                 activeMetricTab === 'swaps'
-                  ? 'bg-rose-600 text-white shadow-lg shadow-rose-500/30'
+                  ? 'bg-[#C62832] text-white shadow-md'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -336,12 +325,12 @@ export const PerformanceSection = ({
           </div>
         </div>
 
-        {/* Recharts Bar Chart with Sleek Max Width, Gradient Fills, Values on Bars, and High Contrast */}
-        <div className="h-80 sm:h-96 w-full pt-2">
+        {/* Recharts Bar Chart */}
+        <div className="h-72 sm:h-84 w-full pt-2">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={chartData}
-              margin={{ top: 32, right: 24, left: 10, bottom: 12 }}
+              margin={{ top: 28, right: 20, left: 5, bottom: 8 }}
             >
               <defs>
                 {barGradients.map((g) => (
@@ -352,12 +341,12 @@ export const PerformanceSection = ({
                 ))}
               </defs>
 
-              <CartesianGrid stroke="#27272a" strokeDasharray="3 3" vertical={false} opacity={0.6} />
+              <CartesianGrid stroke="#22242C" strokeDasharray="3 3" vertical={false} opacity={0.6} />
 
               <XAxis
                 dataKey="name"
                 stroke="#a1a1aa"
-                fontSize={13}
+                fontSize={12}
                 fontWeight={600}
                 tickLine={false}
                 axisLine={{ stroke: '#3f3f46' }}
@@ -365,23 +354,23 @@ export const PerformanceSection = ({
 
               <YAxis
                 stroke="#71717a"
-                fontSize={12}
+                fontSize={11}
                 tickLine={false}
                 axisLine={{ stroke: '#3f3f46' }}
                 tickFormatter={(val) => activeMetricTab === 'time' ? `${val}ms` : val.toLocaleString()}
               />
 
               <Tooltip
-                cursor={{ fill: 'rgba(255, 255, 255, 0.04)', radius: 12 }}
+                cursor={{ fill: 'rgba(255, 255, 255, 0.04)', radius: 8 }}
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload;
                     return (
-                      <div className="p-3.5 rounded-2xl bg-zinc-950/95 border border-white/15 backdrop-blur-xl shadow-2xl text-xs space-y-1 min-w-[140px]">
-                        <span className="font-extrabold text-white text-sm block">{data.fullName}</span>
+                      <div className="p-3 rounded-xl bg-[#08090B] border border-white/15 backdrop-blur-xl shadow-xl text-xs space-y-1 min-w-[130px]">
+                        <span className="font-extrabold text-white text-xs block">{data.fullName}</span>
                         <div className="flex items-center justify-between text-zinc-400 pt-1 border-t border-white/5 font-mono">
                           <span>{getMetricLabel()}:</span>
-                          <span className="font-bold text-emerald-400 ml-2">
+                          <span className="font-bold text-[#FF5A64] ml-2">
                             {formatBarValue(data[activeMetricTab])}
                           </span>
                         </div>
@@ -392,20 +381,18 @@ export const PerformanceSection = ({
                 }}
               />
 
-              {/* Bar with controlled width (maxBarSize 60px) so 2 bars NEVER look gigantic and flat! */}
               <Bar
                 dataKey={activeMetricTab}
-                maxBarSize={64}
-                radius={[12, 12, 0, 0]}
-                animationDuration={800}
+                maxBarSize={60}
+                radius={[8, 8, 0, 0]}
+                animationDuration={700}
               >
-                {/* DISPLAY EXACT VALUE PROMINENTLY ON TOP OF EACH BAR */}
                 <LabelList
                   dataKey={activeMetricTab}
                   position="top"
-                  offset={12}
+                  offset={10}
                   fill="#ffffff"
-                  fontSize={13}
+                  fontSize={11}
                   fontWeight={700}
                   fontFamily="Inter, monospace"
                   formatter={formatBarValue}
@@ -417,7 +404,7 @@ export const PerformanceSection = ({
                     <Cell
                       key={`cell-${index}`}
                       fill={`url(#${grad.id})`}
-                      style={{ filter: `drop-shadow(0 4px 14px ${grad.start}40)` }}
+                      style={{ filter: `drop-shadow(0 4px 10px ${grad.start}40)` }}
                     />
                   );
                 })}

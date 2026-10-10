@@ -23,6 +23,15 @@ app.use(
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// Root Route
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: '⚔️ Sorting Battle Arena Backend API is running successfully!',
+    healthCheck: '/api/health'
+  });
+});
+
 // Health Check
 app.get('/api/health', (req, res) => {
   res.json({
